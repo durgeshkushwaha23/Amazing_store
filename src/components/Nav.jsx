@@ -21,7 +21,7 @@ const Nav = ({ onCategorySelect }) => {
 
   return (
     <div>
-      <nav className="w-[15%] ml-2 h-full flex flex-col items-center pt-5">
+      <nav className="w-[15%] ml-9 h-full flex flex-col items-center pt-5">
         <a
           className="py-1 uppercase px-9 ml-28 border-[1px] text-blue-600 rounded border-blue-300"
           href="/create"

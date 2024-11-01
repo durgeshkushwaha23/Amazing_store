@@ -24,7 +24,7 @@ const getproductscategory = async () => {
 }
 
 useEffect(()=>{
- if(!filterproducts) setfilterproductsset(products);
+ if(!filterproducts||category=="undefined") setfilterproductsset(products);
   if(category != "undefined") getproductscategory();
 },[category,products])
 
@@ -38,12 +38,12 @@ useEffect(()=>{
   return (
     <>
       <Nav />
-      <div className="h-full w-[85%] flex flex-wrap overflow-x-hidden overflow-y-auto">
+      <div className="h-full w-[85%] flex flex-wrap overflow-x-hidden overflow-y-auto p-20">
         {filterproducts&&filterproducts.map((p, i) => (
           <Link
             to={`/details/${p.id}`}
             key={i}
-            className="card mt-5 ml-4 border shadow rounded w-[18%] h-[30vh] flex-col flex justify-center items-center"
+            className="card ml-4 border shadow rounded w-[18%] h-[30vh] flex-col flex justify-center items-center"
           >
             <div
               className="hover:scale-110 mb-3 w-full h-[80%] bg-contain bg-no-repeat bg-center"
