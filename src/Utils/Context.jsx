@@ -9,7 +9,7 @@ const Context = (props) => {
   const getProducts = async () => {
     try {
       const { data } = await axios("https://fakestoreapi.com/products");
-      console.log(data);
+      setProducts(data);
     } catch (err) {
       console.log(err);
     }
@@ -21,9 +21,9 @@ const Context = (props) => {
 
   return (
     <productContext.Provider value={[products, setProducts]}>
-      <div>{props.children}</div>
+      {props.children}
     </productContext.Provider>
-  );
+  );   
 };
 
 export default Context;
