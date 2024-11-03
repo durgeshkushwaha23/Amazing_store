@@ -18,7 +18,7 @@ const Context = (props) => {
   useEffect(() => {
     getProducts();
   }, []);
-
+console.log(products);
   return (
     <productContext.Provider value={[products, setProducts]}>
       {props.children}
