@@ -1,47 +1,57 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+
+// import axios from '../utils/axios'
 import Loading from './Loading';
 import { productContext } from '../Utils/Context';
 
 const Details = () => {
-  const [products, setProducts] = useContext(productContext);
-  const [product, setProduct] = useState(null);
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const[products, setproducts] = useContext(ProductContext);
+  const[product, setproduct] = useState(null);
+  const {id } = useParams();
+  
+//const getsingleproduct = async () =>{
+  //try{
+//const{data} = await axios.get(`/products/${id}`);
+//setproduct(data);
+//} 
+ //catch (error) {
+  //console.log(error);
 
-
-
-  useEffect(() => {
-    if (products && products.length > 0 && !product) {
-      const foundProduct = products.find((p) => p.id == id);
-      setProduct(foundProduct);
-    }
-  }, [id, products]); 
-
-  if (!product) return <div><Loading /></div>;
-
-  const productDeleteHandler = (id) =>{
-    const FilterProducts = products.filter((p)=>p.id !== id);
-    setProducts(FilterProducts);
-    localStorage.setItem("products",JSON.stringify(FilterProducts))
+//}
+//};
+useEffect(() =>{
+  if (!product) {
+    setproduct(products.filter((p) => p.id == id)[0]);
   }
+//getsingleproduct();
+},[]);
+const ProductDeleteHandler = (id)=> {
+  const FilteredProducts = products.filter((p) => p.id !== id);
+  setproducts(FilteredProducts);
+  localStorage.setItem("products", JSON.stringify(FilteredProducts));
+  navigate("/");
+};
+  return product ?(
+    <div className='w-[70%] flex justify-between items-center h-full shadow-left-[10px_10px_15px_0px_rgba(0,0,0,0.1)] shadow-[10px_10px_15px_0px_rgba(0,0,0,0.1)]  m-auto p-[10%] '>
 
-  return (
-    <div className="w-[80%] h-full flex m-auto p-[10%]">
-      <img 
-        className="h-[80%] w-[50%] object-contain" 
-        src={product.image} 
-        alt={product.title} 
-      />
-      <div className="content">
-        <h1 className="mt-8 text-4xl mb-1">{product.title}</h1>
-        <h3 className="text-blue-300 font-semibold mb-1">{product.category}</h3>
-        <h2 className="text-red-400 mb-1">${product.price}</h2>
-        <p className="text-zinc-600 mb-7">{product.description}</p>
-        <Link className="py-1 px-3 border-[1px] rounded-md border-green-800 text-green-800">Edit</Link>
-        <Link onClick={()=>productDeleteHandler(product.id)} className="ml-3 mb-4 py-1 px-3 text-white bg-red-400 rounded-md">Delete</Link>
+      <img
+    className='mr-5 h-[70%] w-[50%]  object-contain' src={`${product.image}`} alt="" />
+      <div className='content'>
+        <h1 className='text-4xl'>{product.title}</h1>
+<h3 className='text-zinc-500 my-5'>{product.category} </h3>
+        <h2 className='text-red-400 mb-3 text-2xl'>₹{product.price}</h2>
+        <p className='mb-[5%]'>{product.description}</p>
+        <Link to={`/edit/${product.id}`} className='mr-5 py-2 px-5 border rounded border-blue-200 text-blue-300'>Edit</Link>
+        <button onClick={()=> ProductDeleteHandler(product.id)}
+         className='py-2 px-5 border rounded border-red-200 text-red-300'>Delete</button>
       </div>
     </div>
+    ) : (
+   <Loading />
   );
+  
 };
 
 export default Details;
